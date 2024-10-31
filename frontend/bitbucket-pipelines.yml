@@ -1,0 +1,32 @@
+image: node:20.11.1
+
+pipelines:
+  # default:
+  #   - parallel:
+  #       - step:
+  #           name: Build and Test
+  #           caches:
+  #             - node
+  #           script:
+  #             - npm install
+  #             - npm build
+  #       - step:
+  #           name: Code linting
+  #           script:
+  #             - npm install eslint
+  #             - npx eslint .
+  #           caches:
+  #             - node
+              
+  branches:
+    main: 
+      - step:
+          name: Atualização da main
+          script:
+            - pipe: atlassian/ssh-run:0.4.0
+              variables:
+                SSH_USER: $SSH_USER
+                SERVER: $SERVER
+                SSH_KEY: $SSH_KEYS
+                COMMAND: 'cd /home/ec2-user/Infra-e2/frontend && bash deploy.sh' 
+                MODE: "command"
