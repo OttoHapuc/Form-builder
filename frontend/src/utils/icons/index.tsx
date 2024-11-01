@@ -1,6 +1,6 @@
-import { BsGraphUp, BsShop } from 'react-icons/bs';
-import { FaMoneyBillTransfer, FaUsersViewfinder } from 'react-icons/fa6';
-import { GiSpellBook } from 'react-icons/gi';
+import { BsFillCloudUploadFill, BsGraphUp, BsShop } from 'react-icons/bs';
+import { FaMoneyBillTransfer, FaRegFile, FaUsersViewfinder } from 'react-icons/fa6';
+import { GiCash, GiSpellBook } from 'react-icons/gi';
 import {
   AiOutlineMessage,
   AiOutlineRight,
@@ -13,15 +13,16 @@ import {
   IoNotificationsOutline,
   IoSettingsOutline,
 } from 'react-icons/io5';
+import { IoIosAddCircleOutline, IoIosArrowDown, IoMdArrowDropright, IoMdCheckboxOutline, IoMdClose, IoMdRadioButtonOn } from "react-icons/io";
 import { LuLaptop } from 'react-icons/lu';
 import { PiPencilLineLight, PiUsersThree } from 'react-icons/pi';
 import { RiBook2Line } from 'react-icons/ri';
 import { SlOptionsVertical } from 'react-icons/sl';
-import { TbUserPlus } from 'react-icons/tb';
+import { TbGripHorizontal, TbNewSection, TbUserPlus } from 'react-icons/tb';
 import { CgClose, CgMenuGridO } from 'react-icons/cg';
-import { LiaEyeSlashSolid, LiaEyeSolid } from 'react-icons/lia';
-import { GoNoEntry, GoPlusCircle } from 'react-icons/go';
-
+import { LiaAddressCardSolid, LiaEyeSlashSolid, LiaEyeSolid, LiaFileContractSolid } from 'react-icons/lia';
+import { GoMultiSelect, GoNoEntry, GoNumber, GoPlusCircle } from 'react-icons/go';
+import { ImTextWidth } from "react-icons/im";
 import {
   FaSchool,
   FaClipboardList,
@@ -89,6 +90,7 @@ import {
   MdSettings,
   MdPerson,
   MdPersonAdd,
+  MdOutlineKeyboardDoubleArrowRight,
 } from 'react-icons/md';
 
 const Icons = {
@@ -449,6 +451,74 @@ const Icons = {
     name: 'FaComments',
     element: <FaComments />,
   },
+  ImTextWidth:{
+    name: 'ImTextWidth',
+    element: <ImTextWidth/>
+  },
+  TbNewSection: {
+    name: 'TbNewSection',
+    element: <TbNewSection />
+  },
+  GoNumber: {
+    name: 'GoNumber',
+    element: <GoNumber />
+  },
+  GoMultiSelect:{
+    name: 'GoMultiSelect',
+    element: <GoMultiSelect/>
+  },
+  IoMdCheckboxOutline:{
+    name: 'IoMdCheckboxOutline',
+    element: <IoMdCheckboxOutline/>
+  },
+  IoMdRadioButtonOn:{
+    name: 'IoMdRadioButtonOn',
+    element: <IoMdRadioButtonOn/>
+  },
+  FaRegFile: {
+    name: 'FaRegFile',
+    element: <FaRegFile />
+  },
+  MdOutlineKeyboardDoubleArrowRight:{
+    name: 'MdOutlineKeyboardDoubleArrowRight',
+    element: <MdOutlineKeyboardDoubleArrowRight/>
+  },
+  IoIosAddCircleOutline: {
+    name: 'IoIosAddCircleOutline',
+    element: <IoIosAddCircleOutline />
+  },
+  LiaAddressCardSolid: {
+    name: 'LiaAddressCardSolid',
+    element: <LiaAddressCardSolid />
+  },
+  GiCash:{
+    name: 'GiCash',
+    element: <GiCash/>
+  },
+  IoMdArrowDropright:{
+    name: 'IoMdArrowDropright',
+    element: <IoMdArrowDropright/>
+  },
+  TbGripHorizontal: {
+    name: 'TbGripHorizontal',
+    element: <TbGripHorizontal />
+  },
+  IoMdClose: {
+    name: 'IoMdClose',
+    element: <IoMdClose />
+  },
+  IoIosArrowDown: {
+    name: 'IoIosArrowDown',
+    element: <IoIosArrowDown />
+  },
+  LiaFileContractSolid:{
+    name: 'LiaFileContractSolid',
+    element: <LiaFileContractSolid />
+  },
+  BsFillCloudUploadFill:{
+    name: 'BsFillCloudUploadFill',
+    element: <BsFillCloudUploadFill />
+  }
 };
 
 export type IconNameType = keyof typeof Icons;
