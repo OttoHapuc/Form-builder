@@ -17,7 +17,8 @@
         "map": [
           ["@", "./src"],
           ["@components", "./src/components"],
-          ["@public", "./public"]
+          ["@public", "./public"],
+          ["@types", "./src/types"]
         ],
         "extensions": [".ts", ".tsx", ".js", ".jsx", ".json"]
       }
