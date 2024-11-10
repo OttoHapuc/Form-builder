@@ -9,6 +9,7 @@ const FormDown = ({
   selectedSection,
   setSelectedSection,
   onDrop,
+  handleDelete
 }: FormDownPropsType) => {
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -50,6 +51,7 @@ const FormDown = ({
               onDragLeave={handleDragLeave}
               onDrop={onDrop}
               indexS={indexS}
+              handleDelete={handleDelete}
             />
           ))}
         </div>

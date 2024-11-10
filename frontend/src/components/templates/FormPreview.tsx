@@ -6,7 +6,11 @@ import { FormDownPropsType } from '../../types/molecules/FormDownPropsType';
 import NavModulesMap from '../molecules/NavModulesMap';
 import StepsForm from '../molecules/StepsForm';
 import FormDown from '../organisms/FormDown';
-import { FormSectionType, FormFieldType, FieldInputType } from '../../types/simple-form';
+import {
+  FormSectionType,
+  FormFieldType,
+  FieldInputType,
+} from '../../types/simple-form';
 
 const FormPreview = ({ typeForm, setTypeForm }: FormPreviewPropsType) => {
   const [sectionForm, setSectionForm] = useState<FormDownPropsType['sectionForm']>(
@@ -23,37 +27,64 @@ const FormPreview = ({ typeForm, setTypeForm }: FormPreviewPropsType) => {
     useState<FormDownPropsType['selectedElement']>(null);
 
   const handleDrop = (e: React.DragEvent, index: number) => {
-  const draggedElementType = e.dataTransfer.getData('formElementType') as FieldInputType | 'section';
-  e.currentTarget.classList.remove('bg-blue-50');
-  e.preventDefault();
+    const draggedElementType = e.dataTransfer.getData('formElementType') as
+      | FieldInputType
+      | 'section';
+    e.currentTarget.classList.remove('bg-blue-50');
+    e.preventDefault();
 
-  if (draggedElementType === 'section') {
-    const newSection: FormSectionType = {
-      title: `Section ${sectionForm.length + 1}`,
-      fields: [],
-    };
-    setTypeForm({
-      ...typeForm,
-      sections: [...typeForm.sections, newSection],
-    });
-    setSelectedSection(newSection);
-  } else if (index >= 0 && index < sectionForm.length) {
-    const newField: FormFieldType = {
-      id: `field-${Date.now()}`,
-      label: 'New Field',
-      fieldType: draggedElementType,
-      config: {
-        size: '2xl'
-      },
-    };
-    const updatedSections = [...typeForm.sections];
-    updatedSections[index].fields.push(newField);
-    setTypeForm({
-      ...typeForm,
-      sections: updatedSections,
-    });
-  }
-};
+    if (draggedElementType === 'section') {
+      const newSection: FormSectionType = {
+        id: `section-${Date.now()}`,
+        title: `Section ${sectionForm.length + 1}`,
+        fields: [],
+      };
+      setTypeForm({
+        ...typeForm,
+        sections: [...typeForm.sections, newSection],
+      });
+      setSelectedSection(newSection);
+    } else if (index >= 0 && index < sectionForm.length) {
+      const newField: FormFieldType = {
+        id: `field-${Date.now()}`,
+        label: 'New Field',
+        fieldType: draggedElementType,
+        config: {
+          size: '2xl',
+        },
+      };
+      const updatedSections = [...typeForm.sections];
+      updatedSections[index].fields.push(newField);
+      setTypeForm({
+        ...typeForm,
+        sections: updatedSections,
+      });
+    }
+  };
+
+  const handleDelete = (indexS: number, fieldId?: number) => {
+    const updatedSections = typeForm.sections.map((section) => ({
+      ...section,
+      fields: [...section.fields],
+    }));
+  
+    if (fieldId === undefined) {
+      const filteredSections = updatedSections.filter((_, index) => index !== indexS);
+      setTypeForm({
+        ...typeForm,
+        sections: filteredSections,
+      });
+    } else {
+      updatedSections[indexS].fields = updatedSections[indexS].fields.filter(
+        (_, index) => index !== fieldId
+      );
+      setTypeForm({
+        ...typeForm,
+        sections: updatedSections,
+      });
+    }
+  };
+  
 
   return (
     <section className="flex-1 flex gap-8 p-4 items-center justify-center">
@@ -70,6 +101,7 @@ const FormPreview = ({ typeForm, setTypeForm }: FormPreviewPropsType) => {
           setSelectedElement={setSelectedElement}
           selectedElement={selectedElement}
           onDrop={handleDrop}
+          handleDelete={handleDelete}
         />
       </section>
 

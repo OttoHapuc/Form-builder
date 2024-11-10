@@ -7,6 +7,9 @@ const RenderInputForm = ({
   input,
   selectedElement,
   setSelectedElement,
+  handleDelete,
+  indexS,
+  indexF
 }: RenderInputFormType) => {
   return (
     <button
@@ -25,7 +28,7 @@ const RenderInputForm = ({
         <button
           onClick={(e) => {
             e.stopPropagation();
-            // onRemove(input.id);
+            handleDelete(indexS, indexF);
           }}
           className="text-gray-400 hover:text-red-500"
         >

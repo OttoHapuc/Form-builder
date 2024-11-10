@@ -16,6 +16,7 @@ const RenderSectionForm = ({
   onDragOver,
   onDrop,
   indexS,
+  handleDelete
 }: RenderSectionFormType) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
@@ -50,7 +51,7 @@ const RenderSectionForm = ({
         <button
           onClick={(e) => {
             e.stopPropagation();
-            // onRemove(element.id);
+            handleDelete(indexS);
           }}
           className="text-gray-400 hover:text-red-500"
         >
@@ -70,12 +71,15 @@ const RenderSectionForm = ({
           >
             {section.fields.length > 0 ? (
               <div className="flex flex-wrap">
-                {section.fields.map((field) => (
+                {section.fields.map((field, indexF) => (
                   <RenderInputForm
                     key={field.id}
                     input={field}
                     setSelectedElement={setSelectedElement}
                     selectedElement={selectedElement}
+                    handleDelete={handleDelete}
+                    indexS={indexS}
+                    indexF={indexF}
                   />
                 ))}
               </div>

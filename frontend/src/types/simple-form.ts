@@ -12,6 +12,7 @@ export type SimpleFormStepType = {
 };
 
 export type FormSectionType = {
+  id: string;
   title?: string;
   fields: FormFieldType[];
 };
