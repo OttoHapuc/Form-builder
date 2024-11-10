@@ -12,19 +12,20 @@ const RenderSectionForm = ({
   setSelectedElement,
   selectedSection,
   setSelectedSection,
-  onDragLeave,
   onDragOver,
+  onDragLeave,
   onDrop,
   indexS,
-  handleDelete
+  handleDelete,
 }: RenderSectionFormType) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  const [draggingOverIndex, setDraggingOverIndex] = useState<number | null>(null);
 
   return (
     <button
-      key={section.title}
+      key={section.id}
       className={clsx(
-        selectedSection?.title === section.title
+        selectedSection?.id === section.id
           ? 'border-blue-500 bg-blue-50'
           : 'border-gray-200',
         'w-full p-4 rounded-lg border border-gray-200',
@@ -59,38 +60,51 @@ const RenderSectionForm = ({
         </button>
       </div>
       {!isCollapsed && (
-        <div className="flex gap-4">
+        <div className="flex flex-wrap">
+          {section.fields.map((field, indexF) => (
+            <button key={field.id} className="flex">
+              {/* Área de Drop antes de cada campo */}
+              <button
+                onDragEnter={() => setDraggingOverIndex(indexF)}
+                onDragOver={onDragOver}
+                onDragLeave={() => setDraggingOverIndex(null)}
+                onDrop={(e) => {
+                  onDrop(e, indexS, indexF);
+                  setDraggingOverIndex(null);
+                  e.stopPropagation();
+                }}
+                className={clsx(
+                  'border-dashed rounded-md min-w-[10px] min-h-full',
+                  draggingOverIndex === indexF && 'w-32 border-2 border-gray-300',
+                )}
+              />
+              {/* Campo atual */}
+              <RenderInputForm
+                input={field}
+                setSelectedElement={setSelectedElement}
+                selectedElement={selectedElement}
+                handleDelete={handleDelete}
+                indexS={indexS}
+                indexF={indexF}
+              />
+            </button>
+          ))}
+          {/* Área de Drop no final da seção */}
           <button
-            className={clsx("w-full min-h-[50px] rounded-lg transition-colors", section.fields.length === 0 && 'border-2 border-dashed border-gray-300 p-1')}
+            onDragEnter={() => setDraggingOverIndex(null)}
             onDragOver={onDragOver}
-            onDragLeave={onDragLeave}
+            onDragLeave={(e) => {setDraggingOverIndex(null); onDragLeave(e);}}
             onDrop={(e) => {
-              onDrop(e, indexS);
+              onDrop(e, indexS, null);
+              setDraggingOverIndex(null);
               e.stopPropagation();
             }}
-          >
-            {section.fields.length > 0 ? (
-              <div className="flex flex-wrap">
-                {section.fields.map((field, indexF) => (
-                  <RenderInputForm
-                    key={field.id}
-                    input={field}
-                    setSelectedElement={setSelectedElement}
-                    selectedElement={selectedElement}
-                    handleDelete={handleDelete}
-                    indexS={indexS}
-                    indexF={indexF}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="w-full flex">
-                  <p className="text-gray-500 py-2">
-                    Drag and drop element Section here!!
-                  </p>
-              </div>
+            className={clsx(
+              'border-dashed border-2 border-gray-300 rounded-md min-h-[40px]',
+              section.fields.length === 0 && 'w-full',
+              (section.fields.length !== 0 && draggingOverIndex === null) && 'w-32',
             )}
-          </button>
+          />
         </div>
       )}
     </button>

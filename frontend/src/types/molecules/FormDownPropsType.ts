@@ -7,6 +7,6 @@ export type FormDownPropsType = {
     setSelectedSection: React.Dispatch<React.SetStateAction<FormSectionType | null>>
     selectedElement: FormFieldType | null
     setSelectedElement: React.Dispatch<React.SetStateAction<FormFieldType | null>>
-    onDrop: (_e: React.DragEvent, _index: number) => void
+    onDrop: (_e: React.DragEvent, _sectionIndex: number, _fieldIndex: number | null) => void
     handleDelete: (_indexS: number, _fieldId?: number) => void
 }

@@ -7,8 +7,6 @@ import NavModulesMap from '../molecules/NavModulesMap';
 import StepsForm from '../molecules/StepsForm';
 import FormDown from '../organisms/FormDown';
 import {
-  FormSectionType,
-  FormFieldType,
   FieldInputType,
 } from '../../types/simple-form';
 
@@ -26,17 +24,22 @@ const FormPreview = ({ typeForm, setTypeForm }: FormPreviewPropsType) => {
   const [selectedElement, setSelectedElement] =
     useState<FormDownPropsType['selectedElement']>(null);
 
-  const handleDrop = (e: React.DragEvent, index: number) => {
+  const handleDrop = (
+    e: React.DragEvent,
+    sectionIndex: number,
+    fieldIndex: number | null, // null indica que o `drop` é na seção, um número indica a posição do campo
+  ) => {
     const draggedElementType = e.dataTransfer.getData('formElementType') as
       | FieldInputType
       | 'section';
-    e.currentTarget.classList.remove('bg-blue-50');
     e.preventDefault();
+    e.currentTarget.classList.remove('bg-blue-50');
 
     if (draggedElementType === 'section') {
-      const newSection: FormSectionType = {
+      // Adiciona uma nova seção
+      const newSection = {
         id: `section-${Date.now()}`,
-        title: `Section ${sectionForm.length + 1}`,
+        title: `Section ${typeForm.sections.length + 1}`,
         fields: [],
       };
       setTypeForm({
@@ -44,17 +47,28 @@ const FormPreview = ({ typeForm, setTypeForm }: FormPreviewPropsType) => {
         sections: [...typeForm.sections, newSection],
       });
       setSelectedSection(newSection);
-    } else if (index >= 0 && index < sectionForm.length) {
-      const newField: FormFieldType = {
+    } else {
+      // Adiciona um novo campo na seção específica e no índice indicado
+      const newField = {
         id: `field-${Date.now()}`,
         label: 'New Field',
         fieldType: draggedElementType,
-        config: {
-          size: '2xl',
-        },
+        config: {},
       };
+
       const updatedSections = [...typeForm.sections];
-      updatedSections[index].fields.push(newField);
+      const targetFields = [...updatedSections[sectionIndex].fields];
+
+      if (fieldIndex === null) {
+        // Adiciona ao final dos campos se fieldIndex é `null`
+        targetFields.push(newField);
+      } else {
+        // Insere o campo no índice específico
+        targetFields.splice(fieldIndex, 0, newField);
+      }
+
+      updatedSections[sectionIndex].fields = targetFields;
+
       setTypeForm({
         ...typeForm,
         sections: updatedSections,
@@ -67,7 +81,7 @@ const FormPreview = ({ typeForm, setTypeForm }: FormPreviewPropsType) => {
       ...section,
       fields: [...section.fields],
     }));
-  
+
     if (fieldId === undefined) {
       const filteredSections = updatedSections.filter((_, index) => index !== indexS);
       setTypeForm({
@@ -76,7 +90,7 @@ const FormPreview = ({ typeForm, setTypeForm }: FormPreviewPropsType) => {
       });
     } else {
       updatedSections[indexS].fields = updatedSections[indexS].fields.filter(
-        (_, index) => index !== fieldId
+        (_, index) => index !== fieldId,
       );
       setTypeForm({
         ...typeForm,
@@ -84,7 +98,6 @@ const FormPreview = ({ typeForm, setTypeForm }: FormPreviewPropsType) => {
       });
     }
   };
-  
 
   return (
     <section className="flex-1 flex gap-8 p-4 items-center justify-center">

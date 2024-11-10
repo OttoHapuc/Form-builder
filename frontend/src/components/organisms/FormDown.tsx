@@ -27,7 +27,7 @@ const FormDown = ({
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={(e) => {
-        onDrop(e, -1);
+        onDrop(e, -1,null);
         e.stopPropagation();
       }}
     >
